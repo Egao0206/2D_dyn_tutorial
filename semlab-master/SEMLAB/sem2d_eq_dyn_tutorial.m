@@ -1,4 +1,3 @@
-(* ::Package:: *)
 
 % SEM2D	applies the Spectral Element Method
 % to solve the 2D SH wave equation, 
@@ -177,7 +176,7 @@ end %... of element loop
 dt = CFL*dt;
 if ETA, dt=dt/sqrt(1+2*ETA); end
 half_dt = 0.5*dt;
-half_dt _sq = 0.5*dt^2;
+half_dt_sq = 0.5*dt^2;
 
 % connectivity matrix for vectorized assembly (without loops)
 Conn = sparse(iglob(:),[1:NGLL*NGLL*NEL],1);
@@ -352,7 +351,7 @@ if ETA,  % Kelvin-Voigt viscosity
   end
   isKelvinVoigt(e) = 1;
   x1 = 0.5*(1+xgll');
-  eta_taper = exp(-pi*x1 . ^2); 
+  eta_taper = exp(-pi*x1.^2); 
   eta_elem = ETA*dt *repmat(eta_taper, NGLL,1 );
   eta = zeros(NGLL,NGLL,NEL);
   for e =1:NEL,
@@ -386,7 +385,7 @@ disp('Starting time loop ...')
 for it=1:NT,
 
  % update
-  d = d + dt*v + half_dt _sq*a; 
+  d = d + dt*v + half_dt_sq*a; 
 %  FltState = max(2*d(iFlt),FltState); % no healing
   FltState = ( FltState + max(2*d(iFlt)-FltD(:,it), 0) ) .* (v(iFlt)>0); % with healing
 
